@@ -249,7 +249,6 @@ export default {
 
     // Game
     turnCard(message, counter) {
-      console.log(this.cardAlreadyClicked);
       if (this.cardAlreadyClicked === true) {
         return;
       }
@@ -262,7 +261,6 @@ export default {
       setTimeout(
         function() {
           if (this.firstTimeClicked === true) {
-            console.log('this was the second click');
             this.firstTimeClicked = false;
           }
           if (this.firstTimeClicked === false) {
@@ -274,7 +272,6 @@ export default {
           let wasHit = false;
           if (this.previousMessage === message) {
             wasHit = true;
-            console.log('point');
             this.snackbar = true;
             this.playerPoints[this.player] += 1;
             const idsToOpen = [];
@@ -343,14 +340,13 @@ export default {
       );
     },
     getImage(message) {
-      console.log(message);
-      if (message === 'deck') {
+      if (message === "deck") {
         return require(`../assets/deck.jpg`);
       } else {
         const i = this.allMessages.indexOf(message) + 1;
-        console.log(message, i);
         const extension = i > 7 ? 'jpeg' : 'png';
-        return require(`../assets/${i}.${extension}`);
+        const filePath = `../assets/${i}.${extension}`
+        return require(filePath);
       }
     },
   },

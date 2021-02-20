@@ -16,7 +16,7 @@
       </template>
 
       <v-app-bar-title class="w-full"
-        >Good Memories - Alles Gute zum Geburtstag
+        >Hallo Papa - Ich wünsche Dir alles Gute zum Geburtstag - Ich habe Dich sehr lieb
         <v-icon>mdi-heart</v-icon></v-app-bar-title
       >
     </v-app-bar>

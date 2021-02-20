@@ -28,11 +28,7 @@
           Spieler:
         </div>
         <div class="d-flex flex-column align-center justify-center mt-6">
-          <div
-            v-for="(player, i) in players"
-            :key="player"
-            class="d-flex mb-6"
-          >
+          <div v-for="(player, i) in players" :key="player" class="d-flex mb-6">
             <v-avatar size="26" :color="colors[i]" class="mr-2">
               <v-icon dark>
                 mdi-account-circle
@@ -47,45 +43,47 @@
 
       <!-- Game -->
       <div v-else>
-        <div class="d-flex align-center justify-center">
-          <div
-            v-for="(player, i) in Object.keys(playerPoints)"
-            :key="player"
-            class="mr-6 ml-6 d-flex"
-          >
-            <v-avatar size="26" :color="colors[i]" class="mr-2">
-              <v-icon dark>
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
-            <div class="mb-1">
-              {{ player }}: {{ playerPoints[player] }} Punkte
+        <div class="sticky">
+          <div class="d-flex align-center justify-center">
+            <div
+              v-for="(player, i) in Object.keys(playerPoints)"
+              :key="player"
+              class="mr-6 ml-6 d-flex"
+            >
+              <v-avatar size="26" :color="colors[i]" class="mr-2">
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
+              </v-avatar>
+              <div class="mb-1">
+                {{ player }}: {{ playerPoints[player] }} Punkte
+              </div>
             </div>
           </div>
-        </div>
-        <div class="try-count w-100 d-flex justify-center mt-6">
-          <div class="w-600">
-            <v-carousel
-              v-model="playerId"
-              hide-delimiters
-              hide-delimiter-background
-              :show-arrows="false"
-              height="50"
-            >
-              <v-carousel-item
-                v-for="(player, i) in players"
-                :key="`${player}`"
+          <div class="try-count w-100 d-flex justify-center mt-6">
+            <div class="w-600">
+              <v-carousel
+                v-model="playerId"
+                hide-delimiters
+                hide-delimiter-background
+                :show-arrows="false"
+                height="50"
               >
-                <v-sheet :color="colors[i]" height="100%" tile>
-                  <v-row class="fill-height" align="center" justify="center">
-                    <div class="player-info mt-3">
-                      <span class="mr-6">{{ player }}</span> -
-                      <span class="ml-6">{{ tryCount }}. Versuch</span>
-                    </div>
-                  </v-row>
-                </v-sheet>
-              </v-carousel-item>
-            </v-carousel>
+                <v-carousel-item
+                  v-for="(player, i) in players"
+                  :key="`${player}`"
+                >
+                  <v-sheet :color="colors[i]" height="100%" tile>
+                    <v-row class="fill-height" align="center" justify="center">
+                      <div class="player-info mt-3">
+                        <span class="mr-6">{{ player }}</span> -
+                        <span class="ml-6">{{ tryCount }}. Versuch</span>
+                      </div>
+                    </v-row>
+                  </v-sheet>
+                </v-carousel-item>
+              </v-carousel>
+            </div>
           </div>
         </div>
 
@@ -106,11 +104,12 @@
               </div>
               <div class="flip-card-back relative">
                 <div class="absolute flip-message-wrapper">
-                  <!-- <div class="flip-message">{{ message }}</div> -->
+                  <div class="flip-message">{{ message }}</div>
                 </div>
                 <img
                   :src="getImage(message)"
                   alt="Avatar"
+                  class="card-img"
                   style="width:150px;height:150px;"
                 />
               </div>
@@ -164,9 +163,32 @@ export default {
       playerPoints: {},
       snackbar: false,
       allMessages: [
-        'Hello Pedro and Celina, flize navidad',
-        'Les deseamos una feliz navidad',
-        'Prospero ano nuevo',
+        'Ich habe dich lieb',
+        'Du bist der Beste',
+        'Danke für Alles',
+        'Du bist wunderbar',
+        'Bleib so wie Du bist',
+        'Du bist immer für mich da gewesen',
+        'Alles Gute zum Geburtstag',
+        'Bleib weiterhin gesund',
+        'Mögen Deine Wünsche in Erfullung gehen',
+        'Du hast so viel geleistet',
+        'Genieße jeden Tag',
+        'Ich wünsche Dir viel Freude',
+        'Pass immer auf Dich auf',
+        'Immer positiv denken',
+        'Du gibst niemals auf',
+        'Ich bin stolz auf Dich',
+        'Gott beschütze Dich',
+        'Bleib weiterhin zufrieden',
+        'Genieße Deinen Ruhestand',
+        'Danke für Deine Hilfe',
+        'Dass du immer guten Mutes bist',
+        'Auf all Deine guten Taten',
+        'Viel Glück',
+        'Es ist schön, mit Dir zu lachen :)',
+        'Lass Dich niemals unterkriegen - weiter so',
+        'Ich habe sehr viel von Dir gelern - Danke',
       ],
       messages: null,
       cardAlreadyClicked: false,
@@ -318,8 +340,10 @@ export default {
       if (message === 'deck') {
         return require(`../assets/deck.jpg`);
       } else {
-        const i = this.messages.indexOf(message) + 1;
-        return require(`../assets/${i}.png`);
+        const i = this.allMessages.indexOf(message) + 1;
+        console.log(message, i);
+        const extension = i > 7 ? 'jpeg' : 'png';
+        return require(`../assets/${i}.${extension}`);
       }
     },
   },
@@ -360,7 +384,7 @@ export default {
   height: 150px;
   perspective: 1000px;
   cursor: pointer;
-  margin: 50px;
+  margin: 10px;
 }
 
 .flip-card-inner {
@@ -406,6 +430,7 @@ export default {
   width: 100%;
   position: flex;
   justify-content: center;
+  font-size: 12px;
 }
 
 .flip-message {
@@ -424,5 +449,16 @@ export default {
   margin-left: auto;
   margin-right: auto;
   opacity: 0.9;
+}
+.card-img {
+  object-fit: cover;
+}
+.sticky {
+  z-index: 1000;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: white;
+  padding-top: 5px;
 }
 </style>

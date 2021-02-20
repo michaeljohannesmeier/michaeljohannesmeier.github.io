@@ -3,15 +3,15 @@
     <div>
       <!-- Enter player names -->
       <div v-if="mode === 'enterPlayer'" class="ma-12">
-        <div class="d-flex align-center justify-center">
-          <div class="w-200 mr-12">
+        <div class="d-flex align-center justify-center flex-column">
+          <div class="w-200 ">
             <v-text-field
               label="Spielername"
               v-model="playerName"
             ></v-text-field>
           </div>
 
-          <v-btn @click="addPlayer" :disabled="players.includes(playerName)">
+          <v-btn @click="addPlayer" :disabled="players.includes(playerName) || playerName === ''">
             Spieler hinzufügen
           </v-btn>
         </div>
@@ -345,8 +345,7 @@ export default {
       } else {
         const i = this.allMessages.indexOf(message) + 1;
         const extension = i > 7 ? 'jpeg' : 'png';
-        const filePath = `../assets/${i}.${extension}`
-        return require(filePath);
+        return require(`../assets/${i}.${extension}`);
       }
     },
   },

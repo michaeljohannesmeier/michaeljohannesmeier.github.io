@@ -75,7 +75,7 @@
                 >
                   <v-sheet :color="colors[i]" height="100%" tile>
                     <v-row class="fill-height" align="center" justify="center">
-                      <div class="player-info mt-3">
+                      <div class="player-info mt-5">
                         <span class="mr-6">{{ player }}</span> -
                         <span class="ml-6">{{ tryCount }}. Versuch</span>
                       </div>

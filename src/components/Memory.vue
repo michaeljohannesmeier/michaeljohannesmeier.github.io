@@ -259,81 +259,88 @@ export default {
       this.cardAlreadyClicked = true;
       const flipCard = document.getElementById('flip-card-inner-' + counter);
       flipCard.style.transform = 'rotateY(180deg)';
-      setTimeout(() => {
-        if (this.firstTimeClicked === true) {
-          console.log('this was the second click');
-          this.firstTimeClicked = false;
-        }
-        if (this.firstTimeClicked === false) {
-          this.firstTimeClicked = true;
-        }
-        this.cardAlreadyClicked = false;
+      setTimeout(
+        function() {
+          if (this.firstTimeClicked === true) {
+            console.log('this was the second click');
+            this.firstTimeClicked = false;
+          }
+          if (this.firstTimeClicked === false) {
+            this.firstTimeClicked = true;
+          }
+          this.cardAlreadyClicked = false;
 
-        // check if win
-        let wasHit = false;
-        if (this.previousMessage === message) {
-          wasHit = true;
-          console.log('point');
-          this.snackbar = true;
-          this.playerPoints[this.player] += 1;
-          const idsToOpen = [];
-          this.messages.forEach((m, index) =>
-            m === message ? idsToOpen.push(index) : null
-          );
-          idsToOpen.forEach((i) => {
-            const flipCardWin = document.getElementById('flip-card-inner-' + i);
-            flipCardWin.style.transform = 'rotateY(180deg)';
-            this.openCards.push(i);
-            if (this.openCards.length === this.messages.length) {
-              this.gameOver = true;
-              // get player won
-              let maxPoints = 0;
-              Object.keys(this.playerPoints).forEach((player) => {
-                if (this.playerPoints[player] > maxPoints) {
-                  maxPoints = this.playerPoints[player];
-                }
-              });
-              Object.keys(this.playerPoints).forEach((player) => {
-                if (this.playerPoints[player] === maxPoints) {
-                  this.playersWon.push(player);
-                }
-              });
-            }
-          });
-        }
-
-        // change player
-        if (!wasHit) {
-          if (this.tryCount === 2) {
-            flipCard.style.transform = 'rotateY(0deg)';
-            const prevFlipCard = document.getElementById(
-              'flip-card-inner-' + this.previousId
+          // check if win
+          let wasHit = false;
+          if (this.previousMessage === message) {
+            wasHit = true;
+            console.log('point');
+            this.snackbar = true;
+            this.playerPoints[this.player] += 1;
+            const idsToOpen = [];
+            this.messages.forEach((m, index) =>
+              m === message ? idsToOpen.push(index) : null
             );
-            prevFlipCard.style.transform = 'rotateY(0deg)';
+            idsToOpen.forEach((i) => {
+              const flipCardWin = document.getElementById(
+                'flip-card-inner-' + i
+              );
+              flipCardWin.style.transform = 'rotateY(180deg)';
+              this.openCards.push(i);
+              if (this.openCards.length === this.messages.length) {
+                this.gameOver = true;
+                // get player won
+                let maxPoints = 0;
+                Object.keys(this.playerPoints).forEach((player) => {
+                  if (this.playerPoints[player] > maxPoints) {
+                    maxPoints = this.playerPoints[player];
+                  }
+                });
+                Object.keys(this.playerPoints).forEach((player) => {
+                  if (this.playerPoints[player] === maxPoints) {
+                    this.playersWon.push(player);
+                  }
+                });
+              }
+            });
           }
-          if (this.tryCount === 2) {
-            if (this.player === this.players[this.players.length - 1]) {
-              this.player = this.players[0];
-              this.playerId = 0;
-            } else {
-              this.player = this.players[this.players.indexOf(this.player) + 1];
-              this.playerId += 1;
+
+          // change player
+          if (!wasHit) {
+            if (this.tryCount === 2) {
+              flipCard.style.transform = 'rotateY(0deg)';
+              const prevFlipCard = document.getElementById(
+                'flip-card-inner-' + this.previousId
+              );
+              prevFlipCard.style.transform = 'rotateY(0deg)';
+            }
+            if (this.tryCount === 2) {
+              if (this.player === this.players[this.players.length - 1]) {
+                this.player = this.players[0];
+                this.playerId = 0;
+              } else {
+                this.player = this.players[
+                  this.players.indexOf(this.player) + 1
+                ];
+                this.playerId += 1;
+              }
             }
           }
-        }
 
-        // save previous message an id
-        if (this.tryCount === 1) {
-          this.previousMessage = message;
-          this.previousId = counter;
-        } else {
-          this.previousMessage = null;
-          this.previousId = null;
-        }
+          // save previous message an id
+          if (this.tryCount === 1) {
+            this.previousMessage = message;
+            this.previousId = counter;
+          } else {
+            this.previousMessage = null;
+            this.previousId = null;
+          }
 
-        // update tryCount
-        this.tryCount = this.tryCount === 1 ? 2 : 1;
-      }, 1000);
+          // update tryCount
+          this.tryCount = this.tryCount === 1 ? 2 : 1;
+        }.bind(this),
+        1500
+      );
     },
     getImage(message) {
       console.log(message);
